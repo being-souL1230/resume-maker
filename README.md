@@ -28,7 +28,7 @@ A Flask-based web application to build professional resumes from predefined temp
 ### 1. Clone the Repository
 ```bash
 git clone https://github.com/being-souL1230/resume-maker.git
-cd <resume-maker>
+cd resume-maker
 ```
 ### 2. Set up Virtual Environment (optional but recommended)
 ```bash
