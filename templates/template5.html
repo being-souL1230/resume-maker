@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resume Template 5 - Professional Layout</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Open Sans', sans-serif;
+      background-color: #fff;
+      margin: 0;
+      padding: 40px;
+      color: #333;
+      line-height: 1.4;
+    }
+
+    .resume {
+      width: 100%;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 30% 70%;
+      gap: 40px;
+    }
+
+    .left {
+      border-right: 1px solid #333;
+      padding-right: 20px;
+    }
+
+    .right {
+      padding-left: 20px;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 4px;
+      color: #000;
+    }
+
+    h2 {
+      font-size: 20px;
+      margin-top: 30px;
+      position: relative;
+      padding-left: 25px;
+      color: #000;
+    }
+
+    h2::before {
+      content: "●";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: #333;
+    }
+
+    .subheading {
+      font-weight: bold;
+      font-size: 14px;
+      margin-top: 20px;
+      color: #000;
+    }
+
+    .text-muted {
+      color: #666;
+      font-size: 13px;
+    }
+
+    ul {
+      padding-left: 18px;
+    }
+
+    li {
+      font-size: 14px;
+      margin-bottom: 6px;
+    }
+
+    .section {
+      margin-bottom: 25px;
+    }
+
+    .reference p {
+      margin-bottom: 4px;
+      font-size: 14px;
+    }
+
+    .bold {
+      font-weight: bold;
+    }
+
+    .job {
+      margin-bottom: 20px;
+    }
+
+    .job-title {
+      font-weight: bold;
+      font-size: 15px;
+    }
+
+    .job-period {
+      float: right;
+      font-size: 13px;
+      color: #999;
+    }
+
+    .job-company {
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+
+    @media screen and (max-width: 768px) {
+      .resume {
+        grid-template-columns: 1fr;
+        padding: 20px;
+      }
+
+      .left {
+        border-right: none;
+        padding-right: 0;
+      }
+
+      .right {
+        padding-left: 0;
+      }
+
+      .job-period {
+        float: none;
+        display: block;
+        margin-top: 4px;
+      }
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+      .resume {
+        width: 100%;
+        margin: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="resume">
+    <div class="left">
+      <h1>{{ data.full_name | default('Your Name') }}</h1>
+      <div class="text-muted">{{ data.title | default('Your Title') }}</div>
+
+      <div class="section">
+        <div class="subheading">CONTACT</div>
+        <p>📞 {{ data.phone | default('+123-456-7890') }}</p>
+        <p>📧 {{ data.email | default('email@example.com') }}</p>
+        <p>🌐 {% if data.portfolio %}<a href="{{ data.portfolio }}">portfolio.com</a>{% endif %}</p>
+        <p>📍 {{ data.address | default('Your Address') }}</p>
+        <p>{% if data.linkedin %}<a href="{{ data.linkedin }}">linkedin.com/in/yourprofile</a>{% endif %}</p>
+        <p>{% if data.github %}<a href="{{ data.github }}">github.com/yourprofile</a>{% endif %}</p>
+      </div>
+
+      <div class="section">
+        <div class="subheading">SKILLS</div>
+        <ul>
+          {% for skill in (data.skills | default('Your skills.') | split('\n')) if skill.strip() %}
+            <li>{{ skill.strip() }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="section">
+        <div class="subheading">LANGUAGES</div>
+        <ul>
+          {% for lang in (data.languages | default('Languages you speak.') | split(',')) if lang.strip() %}
+            <li>{{ lang.strip() }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="section reference">
+        <div class="subheading">REFERENCE</div>
+        <p><span class="bold">{{ data.reference_name | default('Reference Name') }}</span><br>{{ data.reference_position | default('Position') }} - {{ data.reference_company | default('Company') }}</p>
+        <p>{{ data.reference_email | default('reference@email.com') }}</p>
+      </div>
+    </div>
+
+    <div class="right">
+      <h2>PROFESSIONAL SUMMARY</h2>
+      <p>{{ data.professional_summary | default('A brief professional summary.') }}</p>
+
+      <h2>WORK EXPERIENCE</h2>
+      {% for key, value in data.items() if key.startswith('job_') %}
+        <div class="job">
+          <div class="job-title">{{ value.get('title', 'Job Title') }} <span class="job-period">{{ value.get('dates', 'Month Year - Month Year') }}</span></div>
+          <div class="job-company">{{ value.get('company', 'Company') }}</div>
+          <ul>
+            {% for duty in (value.get('duties', 'Your duties.') | split('\n')) if duty.strip() %}
+              <li>{{ duty.strip() }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endfor %}
+
+      <h2>EDUCATION DETAILS</h2>
+      {% for entry in (data.education_details | default('Your education details.') | split('\n')) if entry.strip() %}
+        <p><span class="bold">{{ entry.strip() }}</span><br><span class="text-muted">{{ data.education_dates | default('Year - Year') }}</span></p>
+      {% endfor %}
+
+      <h2>PROJECTS</h2>
+      <ul>
+        {% for project in (data.projects | default('Your projects.') | split('\n')) if project.strip() %}
+          <li>{{ project.strip() }}</li>
+        {% endfor %}
+      </ul>
+
+      <h2>CERTIFICATIONS</h2>
+      <ul>
+        {% for cert in (data.certifications | default('Your certifications.') | split('\n')) if cert.strip() %}
+          <li>{{ cert.strip() }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</body>
+</html>

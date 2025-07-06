@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Craft | Premium Resume Builder</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.2/vanilla-tilt.min.js"></script>
+    <style>
+        :root {
+            --bg-light: #f8fafc;
+            --bg-dark: #0a0e1f;
+            --text-light: #1e2a44;
+            --text-dark: #e0e7ff;
+            --card-bg-light: #ffffff;
+            --card-bg-dark: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+            --card-border-dark: rgba(255, 255, 255, 0.15);
+            --shadow-light: 0 8px 32px rgba(0, 0, 0, 0.1);
+            --shadow-dark: 0 8px 32px rgba(0, 0, 0, 0.5);
+            --accent-color: #2563eb;
+            --accent-hover: #3b82f6;
+            --neon-glow: #60a5fa;
+            --glass-blur: 16px;
+            --transition-all: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-light);
+            color: var(--text-light);
+            transition: var(--transition-all);
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        body.dark-mode {
+            background: linear-gradient(135deg, #0f172a, #1e3a8a);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            color: var(--text-dark);
+        }
+
+        /* Gradient Background Animation */
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Floating Particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) translateX(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) translateX(100px); opacity: 0; }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 60px 20px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, #1e40af, #3b82f6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+            line-height: 1.2;
+            position: relative;
+            display: inline-block;
+        }
+
+        body.dark-mode h1 {
+            background: linear-gradient(90deg, #93c5fd, #60a5fa);
+            -webkit-background-clip: text;
+            background-clip: text;
+            text-shadow: 0 0 20px rgba(96, 165, 250, 0.3);
+            animation: neonPulse 3s ease-in-out infinite alternate;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #6b7280;
+            margin-bottom: 40px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            font-weight: 300;
+            line-height: 1.6;
+        }
+
+        body.dark-mode .subtitle {
+            color: #a5b4fc;
+        }
+
+        .template-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            padding: 20px;
+        }
+
+        .template-card {
+            background: var(--card-bg-light);
+            border-radius: 16px;
+            box-shadow: var(--shadow-light);
+            overflow: hidden;
+            text-decoration: none;
+            color: var(--text-light);
+            position: relative;
+            transition: var(--transition-all);
+            animation: fadeInUp 0.8s ease forwards;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(var(--glass-blur));
+            -webkit-backdrop-filter: blur(var(--glass-blur));
+            transform-style: preserve-3d;
+            will-change: transform;
+            height: 380px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        body.dark-mode .template-card {
+            background: var(--card-bg-dark);
+            border: 1px solid var(--card-border-dark);
+            box-shadow: var(--shadow-dark);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Advanced Glass Morphism Effect */
+        body.dark-mode .template-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                135deg,
+                rgba(255, 255, 255, 0.1) 0%,
+                rgba(255, 255, 255, 0) 60%
+            );
+            border-radius: 16px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Dynamic Shine Effect */
+        .template-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0) 30%,
+                rgba(255, 255, 255, 0.1) 45%,
+                rgba(255, 255, 255, 0) 60%
+            );
+            transform: rotate(30deg);
+            transition: var(--transition-all);
+            animation: shine 6s infinite;
+            opacity: 0;
+        }
+
+        @keyframes shine {
+            0% { transform: rotate(30deg) translate(-30%, -30%); opacity: 0; }
+            20% { opacity: 0.5; }
+            100% { transform: rotate(30deg) translate(30%, 30%); opacity: 0; }
+        }
+
+        .template-card:hover {
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        body.dark-mode .template-card:hover {
+            box-shadow: 0 15px 40px rgba(59, 130, 246, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .template-card:hover::after {
+            opacity: 0.8;
+        }
+
+        .template-img-container {
+            width: 100%;
+            height: 65%;
+            overflow: hidden;
+            position: relative;
+            flex-shrink: 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        body.dark-mode .template-img-container {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .template-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: var(--transition-all);
+        }
+
+        .template-card:hover img {
+            transform: scale(1.05);
+        }
+
+        body.dark-mode .template-card img {
+            filter: brightness(1.05) contrast(1.05);
+        }
+
+        .template-content {
+            padding: 20px;
+            position: relative;
+            z-index: 2;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .template-card h3 {
+            margin: 0 0 10px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            transition: var(--transition-all);
+            position: relative;
+        }
+
+        body.dark-mode .template-card h3 {
+            color: var(--neon-glow);
+            text-shadow: 0 0 10px rgba(96, 165, 250, 0.3);
+        }
+
+        .template-card p {
+            margin: 0;
+            font-size: 0.95rem;
+            color: #4b5563;
+            line-height: 1.5;
+            font-weight: 300;
+        }
+
+        body.dark-mode .template-card p {
+            color: #c7d2fe;
+        }
+
+        .select-button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-all);
+            align-self: center;
+            display: inline-block;
+            width: auto;
+            opacity: 0;
+            transform: translateY(10px);
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            white-space: nowrap;
+        }
+
+        .template-card:hover .select-button {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        body.dark-mode .select-button {
+            background: var(--neon-glow);
+            color: #1e3a8a;
+            box-shadow: 0 4px 15px rgba(96, 165, 250, 0.3);
+        }
+
+        .select-button:hover {
+            transform: translateX(-50%) translateY(-2px);
+            box-shadow: 0 6px 15px rgba(37, 99, 235, 0.3);
+        }
+
+        body.dark-mode .select-button:hover {
+            box-shadow: 0 6px 20px rgba(96, 165, 250, 0.4);
+        }
+
+        /* Premium Badge */
+        .premium-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(135deg, #f59e0b, #f97316);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            z-index: 3;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        body.dark-mode .premium-badge {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+        }
+
+        /* Floating Action Button */
+        .fab {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 56px;
+            height: 56px;
+            background: var(--accent-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.2);
+            cursor: pointer;
+            z-index: 100;
+            transition: var(--transition-all);
+            border: none;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        body.dark-mode .fab {
+            background: var(--neon-glow);
+            box-shadow: 0 6px 25px rgba(96, 165, 250, 0.5);
+            color: #1e3a8a;
+        }
+
+        .fab:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+        }
+
+        body.dark-mode .fab:hover {
+            box-shadow: 0 12px 30px rgba(96, 165, 250, 0.7);
+        }
+
+        /* Theme Toggle - Premium */
+        .theme-toggle {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 8px 15px;
+            border-radius: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        body.dark-mode .theme-toggle {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .toggle-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-light);
+            opacity: 0.9;
+            transition: var(--transition-all);
+        }
+
+        body.dark-mode .toggle-label {
+            color: var(--text-dark);
+            opacity: 0.9;
+        }
+
+        .toggle-switch {
+            width: 48px;
+            height: 24px;
+            background: #e2e8f0;
+            border-radius: 12px;
+            position: relative;
+            cursor: pointer;
+            transition: var(--transition-all);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5px;
+            border: 1px solid #cbd5e1;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        body.dark-mode .toggle-switch {
+            background: #1e40af;
+            border: 1px solid var(--neon-glow);
+            box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.3), 0 0 8px rgba(96, 165, 250, 0.3);
+        }
+
+        .toggle-switch::before {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            background: #ffffff;
+            border-radius: 50%;
+            top: 3px;
+            left: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: var(--transition-all);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%231e3a8a'%3E%3Cpath d='M12 18c-3.3 0-6-2.7-6-6s2.7-6 6-6 6 2.7 6 6-2.7 6-6 6zm0-10c-2.2 0-4 1.8-4 4s1.8 4 4 4 4-1.8 4-4-1.8-4-4-4zm-1 15h2v2h-2zm0-18h2v2h-2zm-9 9h2v2H2zm17 0h2v2h-2zM5.6 5.6l1.4 1.4-1.4 1.4-1.4-1.4zm12.8 12.8l1.4 1.4-1.4 1.4-1.4-1.4zm0-12.8l1.4-1.4 1.4 1.4-1.4 1.4zm-12.8 12.8l1.4-1.4 1.4 1.4-1.4 1.4z'/%3E%3C/svg%3E");
+            background-size: 60%;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        body.dark-mode .toggle-switch::before {
+            transform: translateX(22px);
+            background-color: #1e3a8a;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23a5b4fc'%3E%3Cpath d='M12 18c-3.3 0-6-2.7-6-6s2.7-6 6-6 6 2.7 6 6-2.7 6-6 6zm0-10c-2.2 0-4 1.8-4 4s1.8 4 4 4 4-1.8 4-4-1.8-4-4-4zm-1 15h2v2h-2zm0-18h2v2h-2zm-9 9h2v2H2zm17 0h2v2h-2zM5.6 5.6l1.4 1.4-1.4 1.4-1.4-1.4zm12.8 12.8l1.4 1.4-1.4 1.4-1.4-1.4zm0-12.8l1.4-1.4 1.4 1.4-1.4 1.4zm-12.8 12.8l1.4-1.4 1.4 1.4-1.4 1.4z'/%3E%3C/svg%3E");
+            box-shadow: 0 0 8px rgba(96, 165, 250, 0.5);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes neonPulse {
+            from {
+                text-shadow: 0 0 15px rgba(96, 165, 250, 0.3), 0 0 25px rgba(96, 165, 250, 0.2);
+            }
+            to {
+                text-shadow: 0 0 25px rgba(96, 165, 250, 0.5), 0 0 40px rgba(96, 165, 250, 0.3);
+            }
+        }
+
+        /* Card Animation Delay */
+        .template-card:nth-child(1) { animation-delay: 0.1s; }
+        .template-card:nth-child(2) { animation-delay: 0.2s; }
+        .template-card:nth-child(3) { animation-delay: 0.3s; }
+        .template-card:nth-child(4) { animation-delay: 0.4s; }
+        .template-card:nth-child(5) { animation-delay: 0.5s; }
+
+        /* Responsive Adjustments */
+        @media (max-width: 1024px) {
+            .template-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+                margin-bottom: 30px;
+            }
+            
+            .template-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+            
+            .theme-toggle {
+                top: 15px;
+                right: 15px;
+            }
+            
+            .template-card {
+                height: 350px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .template-card {
+                height: 320px;
+            }
+            
+            .template-img-container {
+                height: 60%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles-js"></div>
+    
+    <div class="theme-toggle">
+        <span class="toggle-label">Theme</span>
+        <div class="toggle-switch" onclick="toggleTheme()"></div>
+    </div>
+    
+    <button class="fab" onclick="scrollToTop()" title="Scroll to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+    
+    <div class="container">
+        <h1>Craft Your Perfect Resume</h1>
+        <p class="subtitle">Select from our premium templates designed to showcase your professional journey with elegance and impact</p>
+        
+        <div class="template-grid">
+            <a href="{{ url_for('form', template='template1') }}" class="template-card" data-tilt data-tilt-max="8" data-tilt-speed="500" data-tilt-glare="true" data-tilt-max-glare="0.15">
+                <div class="premium-badge">
+                    <i class="fas fa-crown"></i> Premium
+                </div>
+                <div class="template-img-container">
+                    <img src="{{ url_for('static', filename='template1.png') }}" alt="Modern Classic Template">
+                </div>
+                <div class="template-content">
+                    <h3>Modern Classic</h3>
+                    <p>A timeless design with clean typography and balanced layout suitable for all industries</p>
+                    <button class="select-button">Select Template</button>
+                </div>
+            </a>
+            
+            <a href="{{ url_for('form', template='template2') }}" class="template-card" data-tilt data-tilt-max="8" data-tilt-speed="500" data-tilt-glare="true" data-tilt-max-glare="0.15">
+                <div class="premium-badge">
+                    <i class="fas fa-crown"></i> Premium
+                </div>
+                <div class="template-img-container">
+                    <img src="{{ url_for('static', filename='template2.png') }}" alt="Creative Bold Template">
+                </div>
+                <div class="template-content">
+                    <h3>Creative Bold</h3>
+                    <p>Vibrant layout with modern aesthetics perfect for designers and creative professionals</p>
+                    <button class="select-button">Select Template</button>
+                </div>
+            </a>
+            
+            <a href="{{ url_for('form', template='template3') }}" class="template-card" data-tilt data-tilt-max="8" data-tilt-speed="500" data-tilt-glare="true" data-tilt-max-glare="0.15">
+                <div class="premium-badge">
+                    <i class="fas fa-crown"></i> Premium
+                </div>
+                <div class="template-img-container">
+                    <img src="{{ url_for('static', filename='template3.png') }}" alt="Minimalist Template">
+                </div>
+                <div class="template-content">
+                    <h3>Executive Minimal</h3>
+                    <p>Sophisticated simplicity with ample white space for corporate professionals</p>
+                    <button class="select-button">Select Template</button>
+                </div>
+            </a>
+            
+            <a href="{{ url_for('form', template='template4') }}" class="template-card" data-tilt data-tilt-max="8" data-tilt-speed="500" data-tilt-glare="true" data-tilt-max-glare="0.15">
+                <div class="premium-badge">
+                    <i class="fas fa-crown"></i> Premium
+                </div>
+                <div class="template-img-container">
+                    <img src="{{ url_for('static', filename='template4.png') }}" alt="Two Column Template">
+                </div>
+                <div class="template-content">
+                    <h3>Two Column</h3>
+                    <p>Efficient layout that maximizes space while maintaining visual harmony</p>
+                    <button class="select-button">Select Template</button>
+                </div>
+            </a>
+            
+            <a href="{{ url_for('form', template='template5') }}" class="template-card" data-tilt data-tilt-max="8" data-tilt-speed="500" data-tilt-glare="true" data-tilt-max-glare="0.15">
+                <div class="premium-badge">
+                    <i class="fas fa-crown"></i> Premium
+                </div>
+                <div class="template-img-container">
+                    <img src="{{ url_for('static', filename='template5.png') }}" alt="Timeless Elegance Template">
+                </div>
+                <div class="template-content">
+                    <h3>Timeless Elegance</h3>
+                    <p>Traditional layout with contemporary touches for conservative industries</p>
+                    <button class="select-button">Select Template</button>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Theme toggle functionality
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+        }
+
+        // Load saved theme
+        if (localStorage.getItem('theme') === 'dark' || 
+            (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches && !localStorage.getItem('theme'))) {
+            document.body.classList.add('dark-mode');
+        }
+
+        // Initialize Vanilla Tilt with smoother settings
+        VanillaTilt.init(document.querySelectorAll(".template-card"), {
+            max: 8,
+            speed: 500,
+            glare: true,
+            "max-glare": 0.15,
+            gyroscope: true
+        });
+
+        // Create floating particles
+        function createParticles() {
+            const container = document.getElementById('particles-js');
+            const particleCount = window.innerWidth < 768 ? 20 : 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random size between 2px and 6px
+                const size = Math.random() * 4 + 2;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Random position
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.bottom = `-${size}px`;
+                
+                // Random animation duration between 10s and 30s
+                const duration = Math.random() * 20 + 10;
+                particle.style.animationDuration = `${duration}s`;
+                
+                // Random delay
+                particle.style.animationDelay = `${Math.random() * 10}s`;
+                
+                container.appendChild(particle);
+            }
+        }
+
+        // Scroll to top function
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Show/hide FAB based on scroll position
+        window.addEventListener('scroll', function() {
+            const fab = document.querySelector('.fab');
+            if (window.scrollY > 300) {
+                fab.style.opacity = '1';
+                fab.style.visibility = 'visible';
+            } else {
+                fab.style.opacity = '0';
+                fab.style.visibility = 'hidden';
+            }
+        });
+
+        // Initialize particles when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            
+            // Hide FAB initially
+            document.querySelector('.fab').style.opacity = '0';
+            document.querySelector('.fab').style.visibility = 'hidden';
+        });
+    </script>
+</body>
+</html>

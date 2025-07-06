@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Preview</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        /* Navbar styles */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(135deg, #ffffff, #f8f9fa);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 12px 20px;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .action-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .action-button:hover {
+            background-color: #0056b3;
+            transform: translateY(-1px);
+        }
+
+        .action-button.secondary {
+            background-color: #6c757d;
+        }
+
+        .action-button.secondary:hover {
+            background-color: #5a6268;
+        }
+
+        #resume-content {
+            width: 100%;
+            margin-top: 60px; /* Space for fixed navbar */
+            overflow: hidden;
+        }
+
+        /* Special class for PDF generation */
+        .pdf-resume-content {
+            margin-top: 0 !important;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 25px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            animation: modalFadeIn 0.3s ease-out;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-title {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .modal-message {
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .modal-button {
+            padding: 8px 16px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .modal-button.primary {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .modal-button.primary:hover {
+            background-color: #0069d9;
+        }
+
+        .modal-button.secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .modal-button.secondary:hover {
+            background-color: #5a6268;
+        }
+
+        /* Print styles */
+        @media print {
+            .navbar {
+                display: none;
+            }
+
+            body {
+                background: none;
+                margin: 0;
+                padding: 0;
+            }
+
+            #resume-content {
+                margin-top: 0;
+            }
+        }
+
+        /* Responsive navbar */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 10px 15px;
+            }
+
+            .action-button {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+
+            #resume-content {
+                margin-top: 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar with Action Buttons -->
+    <nav class="navbar">
+        <div class="action-buttons">
+            <a href="{{ url_for('form') }}" class="action-button secondary">
+                <i class="fas fa-arrow-left"></i> Back to Edit
+            </a>
+            <button id="downloadPdfA4" class="action-button">
+                <i class="fas fa-file-pdf"></i> Download as A4 PDF
+            </button>
+            <button id="downloadPdfA3" class="action-button">
+                <i class="fas fa-file-pdf"></i> Download as A3 PDF
+            </button>
+            <button id="printResume" class="action-button secondary">
+                <i class="fas fa-print"></i> Print Resume
+            </button>
+        </div>
+    </nav>
+
+    <!-- Resume Content -->
+    <div id="resume-content">
+        {% include template + '.html' %}
+    </div>
+
+    <!-- Page Fit Confirmation Modal -->
+    <div id="pageFitModal" class="modal">
+        <div class="modal-content">
+            <h3 class="modal-title">Page Fit Warning</h3>
+            <div class="modal-message">
+                <p>Your resume content may not fit properly on a single page. Would you like to:</p>
+                <ol>
+                    <li><strong>Force Fit:</strong> Automatically adjust the content to fit on one page (may reduce font size)</li>
+                    <li><strong>Keep Original:</strong> Download as-is, which may span multiple pages</li>
+                </ol>
+            </div>
+            <div class="modal-buttons">
+                <button id="forceFitBtn" class="modal-button primary">Force Fit to One Page</button>
+                <button id="keepOriginalBtn" class="modal-button secondary">Keep Original Format</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Print button functionality
+            document.getElementById('printResume').addEventListener('click', function () {
+                window.print();
+            });
+
+            // A4 PDF Download functionality
+            document.getElementById('downloadPdfA4').addEventListener('click', function () {
+                checkPageFit('a4');
+            });
+
+            // A3 PDF Download functionality
+            document.getElementById('downloadPdfA3').addEventListener('click', function () {
+                checkPageFit('a3');
+            });
+
+            // Modal button handlers
+            document.getElementById('forceFitBtn').addEventListener('click', function () {
+                downloadPdf(forceFitFormat, true);
+                closeModal();
+            });
+
+            document.getElementById('keepOriginalBtn').addEventListener('click', function () {
+                downloadPdf(forceFitFormat, false);
+                closeModal();
+            });
+
+            // Global variable to track selected format
+            let forceFitFormat = 'a4';
+
+            // Function to check if content fits on one page
+            function checkPageFit(format) {
+                forceFitFormat = format;
+                const resumeContent = document.getElementById('resume-content');
+                const contentHeight = resumeContent.scrollHeight;
+                const pageHeight = format === 'a3' ? 1191 : 1122; // A3 height vs A4 height in pixels (at 96dpi)
+
+                if (contentHeight > pageHeight) {
+                    showModal();
+                } else {
+                    downloadPdf(format, false);
+                }
+            }
+
+            // Function to show the modal
+            function showModal() {
+                document.getElementById('pageFitModal').style.display = 'flex';
+            }
+
+            // Function to close the modal
+            function closeModal() {
+                document.getElementById('pageFitModal').style.display = 'none';
+            }
+
+            // Function to generate and download PDF
+            function downloadPdf(format, forceFit) {
+                const element = document.getElementById('resume-content');
+                
+                // Clone the element to modify for PDF
+                const elementClone = element.cloneNode(true);
+                elementClone.classList.add('pdf-resume-content');
+                document.body.appendChild(elementClone);
+                
+                const opt = {
+                    margin: 0, // Changed from 10 to 0 to maximize space
+                    filename: `my_resume_${format === 'a3' ? 'A3' : 'A4'}.pdf`,
+                    image: { type: 'jpeg', quality: 0.98 },
+                    html2canvas: {
+                        scale: 2,
+                        logging: true,
+                        useCORS: true,
+                        scrollY: 0 // Ensure we capture from the very top
+                    },
+                    jsPDF: {
+                        unit: 'mm',
+                        format: format === 'a3' ? 'a3' : 'a4',
+                        orientation: 'portrait'
+                    }
+                };
+
+                if (forceFit) {
+                    // Calculate scale needed to fit content to one page
+                    const contentHeight = elementClone.scrollHeight;
+                    const pageHeight = format === 'a3' ? 1191 : 1122; // A3 vs A4 height in pixels
+                    const scale = pageHeight / contentHeight * 0.95; // 5% margin
+
+                    opt.html2canvas.scale = scale;
+                    opt.jsPDF = {
+                        unit: 'mm',
+                        format: format === 'a3' ? 'a3' : 'a4',
+                        orientation: 'portrait',
+                        putOnlyUsedFonts: true
+                    };
+                }
+
+                // Show loading indicator
+                const downloadBtn = format === 'a3' ? document.getElementById('downloadPdfA3') : document.getElementById('downloadPdfA4');
+                const originalText = downloadBtn.innerHTML;
+                downloadBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating PDF...';
+                downloadBtn.disabled = true;
+
+                // Generate PDF
+                html2pdf().from(elementClone).set(opt).save().then(() => {
+                    // Restore button state and remove clone
+                    downloadBtn.innerHTML = originalText;
+                    downloadBtn.disabled = false;
+                    document.body.removeChild(elementClone);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

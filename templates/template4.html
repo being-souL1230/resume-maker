@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resume Template 4 - Professional Layout</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Open Sans', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: white;
+      color: #333;
+      line-height: 1.4;
+    }
+
+    .container {
+      width: 842px; /* A3 width at 72 DPI */
+      height: 1191px; /* A3 height at 72 DPI */
+      margin: 20px auto;
+      padding: 20px;
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+      overflow: auto; /* Minimal scroll if needed */
+    }
+
+    .left {
+      flex: 1 1 30%;
+      min-width: 250px;
+      border-right: 1px solid #333;
+      padding-right: 15px;
+    }
+
+    .right {
+      flex: 1 1 65%;
+      min-width: 280px;
+      padding-left: 15px;
+    }
+
+    h1 {
+      font-family: 'Roboto', sans-serif;
+      font-size: 2em;
+      color: #000;
+      margin: 0 0 10px;
+      padding-bottom: 5px;
+      border-bottom: 2px solid #000;
+    }
+
+    .title {
+      font-family: 'Roboto', sans-serif;
+      font-size: 1em;
+      letter-spacing: 2px;
+      color: #666;
+      margin-bottom: 15px;
+    }
+
+    .section {
+      margin-bottom: 15px;
+    }
+
+    .section-title {
+      font-weight: bold;
+      margin-top: 15px;
+      margin-bottom: 5px;
+      font-size: 1.1em;
+      color: #000;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 15px;
+    }
+
+    li {
+      margin-bottom: 5px;
+      font-size: 0.9em;
+    }
+
+    .bold {
+      font-weight: bold;
+    }
+
+    .edu {
+      font-weight: bold;
+      margin-top: 10px;
+      font-size: 1em;
+    }
+
+    .small-text {
+      font-size: 0.85em;
+      color: #555;
+    }
+
+    .contact a {
+      text-decoration: none;
+      color: #333;
+    }
+
+    .contact a:hover {
+      text-decoration: underline;
+    }
+
+    .interests {
+      font-size: 0.9em;
+    }
+
+    .job-entry {
+      margin-bottom: 15px;
+    }
+
+    @media screen and (max-width: 768px) {
+      .container {
+        flex-direction: column;
+        padding: 15px;
+        width: 100%;
+        height: auto;
+      }
+
+      .left, .right {
+        flex: 1 1 100%;
+        border: none;
+        padding: 0;
+      }
+
+      .left {
+        margin-bottom: 20px;
+      }
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+      .container {
+        box-shadow: none;
+        margin: 0;
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="left">
+      <h1>{{ data.full_name | default('Your Name') }}</h1>
+      <div class="title">{{ data.title | default('Your Title') }}</div>
+
+      <div class="section contact">
+        <div class="section-title">CONTACT</div>
+        <p>
+          {{ data.email | default('email@example.com') }}<br>
+          {{ data.phone | default('123-456-7890') }}<br>
+          {{ data.address | default('Your Address') }}<br>
+          {% if data.linkedin %}<a href="{{ data.linkedin }}">linkedin.com/in/yourprofile</a><br>{% endif %}
+          {% if data.github %}<a href="{{ data.github }}">github.com/yourprofile</a><br>{% endif %}
+          {% if data.portfolio %}<a href="{{ data.portfolio }}">portfolio.com</a>{% endif %}
+        </p>
+      </div>
+
+      <div class="section education">
+        <div class="section-title">EDUCATION DETAILS</div>
+        {% for entry in (data.education_details | default('Your education details.') | split('\n')) if entry.strip() %}
+          <p class="edu">{{ entry.strip() }}</p>
+          <p class="small-text">{{ data.education_dates | default('Year - Year') }}</p>
+        {% endfor %}
+      </div>
+
+      <div class="section skills">
+        <div class="section-title">SKILLS</div>
+        <ul>
+          {% for skill in (data.skills | default('Your skills.') | split('\n')) if skill.strip() %}
+            <li>{{ skill.strip() }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="section interests">
+        <div class="section-title">HOBBIES</div>
+        <p>{{ data.hobbies | default('Your hobbies.') }}</p>
+      </div>
+    </div>
+
+    <div class="right">
+      <div class="section">
+        <h2>PROFESSIONAL SUMMARY</h2>
+        <ul>
+          {% for point in (data.professional_summary | default('A brief professional summary.') | split('\n')) if point.strip() %}
+            <li>{{ point.strip() }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="section">
+        <h2>WORK EXPERIENCE</h2>
+        {% for key, value in data.items() if key.startswith('job_') %}
+          <div class="job-entry">
+            <div class="job-title">{{ value.get('title', 'Job Title') }}</div>
+            <div class="small-text">{{ value.get('company', 'Company') }} / {{ value.get('dates', 'Month Year - Month Year') }}</div>
+            <ul>
+              {% for duty in (value.get('duties', 'Your duties.') | split('\n')) if duty.strip() %}
+                <li>{{ duty.strip() }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="section">
+        <h2>PROJECTS</h2>
+        <ul>
+          {% for project in (data.projects | default('Your projects.') | split('\n')) if project.strip() %}
+            <li>{{ project.strip() }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="section">
+        <h2>CERTIFICATIONS</h2>
+        <ul>
+          {% for cert in (data.certifications | default('Your certifications.') | split('\n')) if cert.strip() %}
+            <li>{{ cert.strip() }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="section">
+        <h2>LANGUAGES</h2>
+        <ul>
+          {% for lang in (data.languages | default('Languages you speak.') | split(',')) if lang.strip() %}
+            <li>{{ lang.strip() }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

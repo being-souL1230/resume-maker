@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Resume Template A4 Layout</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            margin: 0;
+            padding: 40px 0;
+            background: #ddd;
+            color: #333;
+        }
+
+        .resume-container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+            display: flex;
+            min-height: 1120px; /* A4 height approx */
+        }
+
+        .sidebar {
+            width: 35%;
+            background: #f5f5f5;
+            padding: 30px;
+            border-right: 2px solid #333;
+        }
+
+        .main-content {
+            width: 65%;
+            padding: 30px;
+        }
+
+        h1 {
+            font-family: 'Roboto', sans-serif;
+            font-size: 2em;
+            color: #000;
+            margin: 0 0 20px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #000;
+            text-align: center;
+        }
+
+        .contact-info {
+            margin-bottom: 20px;
+            font-size: 0.9em;
+        }
+
+        .contact-info p {
+            margin: 10px 0;
+            padding: 8px 12px;
+            background: #e9ecef;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .contact-info i {
+            margin-right: 10px;
+            color: #333;
+            width: 18px;
+            text-align: center;
+        }
+
+        .contact-info a {
+            color: #333;
+            text-decoration: none;
+        }
+
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+
+        .section {
+            margin-bottom: 20px;
+            padding-left: 15px;
+            border-left: 2px solid #333;
+        }
+
+        .section h2 {
+            font-family: 'Roboto', sans-serif;
+            font-size: 1.3em;
+            color: #000;
+            margin: 0 0 12px 8px;
+            display: flex;
+            align-items: center;
+        }
+
+        .section h2 i {
+            margin-right: 10px;
+            font-size: 1em;
+        }
+
+        .section-content {
+            margin-left: 8px;
+            font-size: 0.95em;
+        }
+
+        .section-content ul {
+            padding-left: 20px;
+            margin: 8px 0;
+        }
+
+        .section-content ul li {
+            padding: 5px 0;
+            position: relative;
+            list-style-type: none;
+        }
+
+        .section-content ul li:before {
+            content: "•";
+            color: #333;
+            font-weight: bold;
+            position: absolute;
+            left: -15px;
+            font-size: 1.2em;
+        }
+
+        .skills-list,
+        .languages-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding-left: 0;
+        }
+
+        .skills-list li,
+        .languages-list li {
+            background: #666;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            list-style-type: none;
+        }
+
+        .skills-list li:before,
+        .languages-list li:before {
+            content: none;
+        }
+
+        @media print {
+            body {
+                padding: 0;
+                background: white;
+            }
+
+            .resume-container {
+                box-shadow: none;
+                width: 100%;
+                margin: 0;
+                min-height: auto;
+            }
+
+            .sidebar {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .resume-container {
+                flex-direction: column;
+            }
+
+            .sidebar,
+            .main-content {
+                width: 100%;
+                padding: 20px;
+            }
+
+            .sidebar {
+                border-right: none;
+                border-bottom: 2px solid #333;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="resume-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <h1>{{ data.name | default('Your Name') }}</h1>
+            <div class="contact-info">
+                <p><i class="fas fa-envelope"></i>{{ data.email | default('email@example.com') }}</p>
+                <p><i class="fas fa-phone"></i>{{ data.phone | default('123-456-7890') }}</p>
+                <p><i class="fas fa-map-marker-alt"></i>{{ data.address | default('Your Address') }}</p>
+                {% if data.linkedin %}
+                <p><i class="fab fa-linkedin"></i><a href="{{ data.linkedin }}">{{ data.linkedin }}</a></p>
+                {% endif %}
+                {% if data.github %}
+                <p><i class="fab fa-github"></i><a href="{{ data.github }}">{{ data.github }}</a></p>
+                {% endif %}
+                {% if data.portfolio %}
+                <p><i class="fas fa-globe"></i><a href="{{ data.portfolio }}">{{ data.portfolio }}</a></p>
+                {% endif %}
+            </div>
+            <div class="section">
+                <h2><i class="fas fa-tools"></i>Skills</h2>
+                <div class="section-content">
+                    <ul class="skills-list">
+                        {% for skill in (data.skills | default('Your skills.') | split('\n')) if skill.strip() %}
+                        <li>{{ skill.strip() }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="section">
+                <h2><i class="fas fa-language"></i>Languages</h2>
+                <div class="section-content">
+                    <ul class="languages-list">
+                        {% for language in (data.languages | default('Languages you speak.') | split(',')) if language.strip() %}
+                        <li>{{ language.strip() }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="section">
+                <h2><i class="fas fa-user-tie"></i>Professional Summary</h2>
+                <div class="section-content">
+                    <p>{{ data.summary | default('A brief professional summary.') }}</p>
+                </div>
+            </div>
+            <div class="section">
+                <h2><i class="fas fa-graduation-cap"></i>Education</h2>
+                <div class="section-content">
+                    <ul>
+                        {% for entry in (data.education | default('Your education details.') | split('\n')) if entry.strip() %}
+                        <li>{{ entry.strip() }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="section">
+                <h2><i class="fas fa-briefcase"></i>Work Experience</h2>
+                <div class="section-content">
+                    <ul>
+                        {% for entry in (data.experience | default('Your work experience.') | split('\n')) if entry.strip() %}
+                        <li>{{ entry.strip() }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="section">
+                <h2><i class="fas fa-project-diagram"></i>Projects</h2>
+                <div class="section-content">
+                    <ul>
+                        {% for entry in (data.projects | default('Your projects.') | split('\n')) if entry.strip() %}
+                        <li>{{ entry.strip() }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="section">
+                <h2><i class="fas fa-certificate"></i>Certifications</h2>
+                <div class="section-content">
+                    <ul>
+                        {% for entry in (data.certifications | default('Your certifications.') | split('\n')) if entry.strip() %}
+                        <li>{{ entry.strip() }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="section">
+                <h2><i class="fas fa-heart"></i>Hobbies</h2>
+                <div class="section-content">
+                    <p>{{ data.hobbies | default('Your hobbies.') }}</p>
+                </div>
+            </div>
+
+            <!-- Custom Fields -->
+            {% for key, value in data.items() %}
+            {% if key not in ['name', 'email', 'phone', 'address', 'summary', 'education', 'experience', 'skills',
+            'projects', 'certifications', 'languages', 'hobbies', 'linkedin', 'github', 'portfolio', 'template'] %}
+            <div class="section">
+                <h2><i class="fas fa-plus"></i>{{ key | replace('_', ' ') | title }}</h2>
+                <div class="section-content">
+                    <p>{{ value | default('Custom field data.') }}</p>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Resume Template 1 - Modern Professional</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f7fa;
+            color: #1a1a1a;
+            line-height: 1.4;
+            padding: 15px;
+        }
+
+        .resume-container {
+            max-width: 1100px;
+            width: calc(100% - 30px);
+            margin: 15px auto;
+            background: #fff;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            display: flex;
+            min-height: 650px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .sidebar {
+            width: 30%;
+            background: linear-gradient(135deg, #1e2a44, #2c3e50);
+            color: #fff;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .main-content {
+            width: 70%;
+            padding: 28px 32px;
+            background: #fff;
+            position: relative;
+        }
+
+        /* Consistent font sizes */
+        .sidebar h1 {
+            font-size: 1.5em;
+            margin: 0 0 12px;
+            text-align: center;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+
+        .sidebar .contact-info,
+        .sidebar .section {
+            margin-bottom: 16px;
+        }
+
+        .sidebar .contact-info p,
+        .sidebar .section p,
+        .sidebar .section li {
+            font-size: 0.85em;
+            margin: 4px 0;
+            line-height: 1.4;
+        }
+
+        .sidebar .contact-info i,
+        .sidebar .section i {
+            margin-right: 8px;
+            width: 14px;
+            text-align: center;
+            font-size: 0.85em;
+            opacity: 0.9;
+        }
+
+        .sidebar a {
+            color: #7fdbff;
+            text-decoration: none;
+            font-size: 0.85em;
+            transition: color 0.2s ease;
+        }
+
+        .sidebar a:hover {
+            color: #3498db;
+        }
+
+        .sidebar h2 {
+            font-size: 1em;
+            margin: 12px 0 8px;
+            padding-bottom: 4px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .sidebar h2 i {
+            margin-right: 8px;
+            font-size: 0.9em;
+        }
+
+        .main-content h2 {
+            font-size: 1.1em;
+            color: #1e2a44;
+            border-left: 3px solid #3498db;
+            padding-left: 8px;
+            margin: 16px 0 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .main-content .section {
+            margin-bottom: 16px;
+        }
+
+        .main-content .section p,
+        .main-content .section li {
+            font-size: 0.9em;
+            line-height: 1.4;
+            margin: 4px 0;
+            color: #333;
+        }
+
+        .sidebar ul,
+        .main-content ul {
+            list-style: none;
+            padding-left: 4px;
+        }
+
+        .sidebar ul li,
+        .main-content ul li {
+            position: relative;
+            padding-left: 16px;
+            margin-bottom: 4px;
+        }
+
+        .sidebar ul li:before,
+        .main-content ul li:before {
+            content: "•";
+            color: #3498db;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+            font-size: 0.85em;
+        }
+
+        .languages-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            padding-left: 0;
+            margin: 8px 0;
+        }
+
+        .languages-list li {
+            background: rgba(255, 255, 255, 0.15);
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            font-weight: 400;
+        }
+
+        /* Print styles */
+        @media print {
+            body {
+                background: #fff;
+                padding: 0;
+            }
+
+            .resume-container {
+                box-shadow: none;
+                margin: 0;
+                width: 100%;
+                max-width: 100%;
+                min-height: auto;
+                border-radius: 0;
+            }
+
+            .sidebar {
+                background: linear-gradient(135deg, #1e2a44, #2c3e50) !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .resume-container {
+                flex-direction: column;
+                max-width: 100%;
+            }
+
+            .sidebar,
+            .main-content {
+                width: 100%;
+                padding: 16px;
+            }
+            
+            /* Slightly reduce font sizes on mobile */
+            .sidebar h1 {
+                font-size: 1.3em;
+            }
+            .sidebar .contact-info p,
+            .sidebar .section p,
+            .sidebar .section li {
+                font-size: 0.8em;
+            }
+            .main-content h2 {
+                font-size: 1em;
+            }
+            .main-content .section p,
+            .main-content .section li {
+                font-size: 0.85em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="resume-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <h1>{{ data.name | default('Your Name') }}</h1>
+            <div class="contact-info">
+                <p><i class="fas fa-envelope"></i>{{ data.email | default('email@example.com') }}</p>
+                <p><i class="fas fa-phone"></i>{{ data.phone | default('123-456-7890') }}</p>
+                <p><i class="fas fa-map-marker-alt"></i>{{ data.address | default('Your Address') }}</p>
+                {% if data.linkedin %}
+                <p><i class="fab fa-linkedin"></i><a href="{{ data.linkedin }}">{{ data.linkedin }}</a></p>
+                {% endif %}
+                {% if data.github %}
+                <p><i class="fab fa-github"></i><a href="{{ data.github }}">{{ data.github }}</p>
+                {% endif %}
+                {% if data.portfolio %}
+                <p><i class="fas fa-globe"></i><a href="{{ data.portfolio }}">{{ data.portfolio }}</a></p>
+                {% endif %}
+            </div>
+            <div class="section">
+                <h2><i class="fas fa-tools"></i>Skills</h2>
+                <ul>
+                    {% for skill in (data.skills | default('Your skills.') | split('\n')) if skill.strip() %}
+                    <li>{{ skill.strip() }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="section">
+                <h2><i class="fas fa-language"></i>Languages</h2>
+                <ul class="languages-list">
+                    {% for language in (data.languages | default('Languages you speak.') | split(',')) if language.strip() %}
+                    <li>{{ language.strip() }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="section">
+                <h2>Education</h2>
+                <ul>
+                    {% for entry in (data.education | default('Your education details.') | split('\n')) if entry.strip() %}
+                    <li>{{ entry.strip() }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="section">
+                <h2><i class="fas fa-heart"></i>Hobbies</h2>
+                <p>{{ data.hobbies | default('Your hobbies.') }}</p>
+            </div>
+        </div>
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="section">
+                <h2>Professional Summary</h2>
+                <p>{{ data.summary | default('A brief professional summary.') }}</p>
+            </div>
+            
+            <div class="section">
+                <h2>Work Experience</h2>
+                <ul>
+                    {% for entry in (data.experience | default('Your work experience.') | split('\n')) if entry.strip() %}
+                    <li>{{ entry.strip() }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="section">
+                <h2>Projects</h2>
+                <ul>
+                    {% for entry in (data.projects | default('Your projects.') | split('\n')) if entry.strip() %}
+                    <li>{{ entry.strip() }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="section">
+                <h2>Certifications</h2>
+                <ul>
+                    {% for entry in (data.certifications | default('Your certifications.') | split('\n')) if entry.strip() %}
+                    <li>{{ entry.strip() }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <!-- Custom Fields -->
+            {% for key, value in data.items() %}
+            {% if key not in ['name', 'email', 'phone', 'address', 'summary', 'education', 'experience', 'skills', 'projects', 'certifications', 'languages', 'hobbies', 'linkedin', 'github', 'portfolio', 'template'] %}
+            <div class="section">
+                <h2>{{ key | replace('_', ' ') | title }}</h2>
+                <p>{{ value | default('Custom field data.') }}</p>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
