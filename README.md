@@ -30,6 +30,7 @@ A Flask-based web application to build professional resumes from predefined temp
 git clone https://github.com/being-souL1230/resume-maker.git
 cd resume-maker
 ```
+### Note:- Do not forget to delete venv folder after cloning repository
 ### 2. Set up Virtual Environment (optional but recommended)
 ```bash
 python -m venv env
@@ -53,4 +54,4 @@ client = Groq(api_key="YOUR_API_KEY")
 ```bash
 python app.py
 ```
-### Note:- Do not forget to delete venv after cloning repository
+
